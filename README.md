@@ -1,10 +1,16 @@
-[![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)](https://www.youtube.com/watch?v=9auOCbH5Ns4)
+# vim自动配置脚本
+##私有版本。
 
 # Installation
 
-    git clone http://github.com/zjrosen1/vim.git ~/.vim
+    git clone http://github.com/liuran/vim.git ~/.vim
     cd ~/.vim
     ./install.sh
+
+
+##原版本更新内容:
+[![](http://img.shields.io/badge/unicorn-approved-ff69b4.svg)](https://www.youtube.com/watch?v=9auOCbH5Ns4)
+
 
 ## Need Moar Plugins
 ###Vundle like its 2015
