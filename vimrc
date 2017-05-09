@@ -21,11 +21,11 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
-
+Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'bling/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 
@@ -61,6 +61,7 @@ Plugin 'Tabular'
 Plugin 'ctrlp.vim'
 Plugin 'matchit.zip'
 Plugin 'ack.vim'
+"Plugin 'project.vim'
 
 call vundle#end()
 
@@ -227,10 +228,10 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 " Window Switching {{{2
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
 " Window Resizing {{{2
 nnoremap <Left> :vertical resize +1<CR>
 nnoremap <Right> :vertical resize -1<CR>
@@ -239,8 +240,8 @@ nnoremap <Down> :resize -1<CR>
 " Insert Movement {{{2
 imap <C-e> <C-o>$
 imap <C-a> <C-o>0
-imap <C-f> <C-o>l
-imap <C-b> <C-o>h
+imap <C-l> <C-o>l
+imap <C-h> <C-o>h
 " Indent Mapping {{{2
 nmap <D-[> <<
 nmap <D-]> >>
@@ -290,13 +291,13 @@ vnoremap <F1> <ESC>
 " [ Leader Mappings ] {{{1
 " Save a file -- fs {{{2
 nmap <leader>fs :w<CR>
-nmap <leader>fw :silent execute "!say -v Daniel -r 90 -f ~/Dropbox/fp &>/dev/null &" <bar> redraw!<CR>
-nmap <leader>fp :silent execute "!killall say &>/dev/null &" <bar> redraw!<CR>
+"nmap <leader>fw :silent execute "!say -v Daniel -r 90 -f ~/Dropbox/fp &>/dev/null &" <bar> redraw!<CR>
+"nmap <leader>fp :silent execute "!killall say &>/dev/null &" <bar> redraw!<CR>
 " Update vimrc -- v OR ev {{{2
 nmap <leader>v :tabedit $MYVIMRC<CR>
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Update snipmate -- sc {{{2
-nmap <leader>sc :tabedit ~/.vim/bundle/vim-snippets/snippets<CR>
+nmap <leader>es :tabedit ~/.vim/bundle/vim-snippets/snippets<CR>
 " Toggle Highlighting -- h {{{2
 nmap <silent> <leader>h :set hlsearch!<CR>
 " Toggle Spell Checking -- s {{{2
@@ -463,7 +464,10 @@ hi EasyMotionTarget ctermbg=none ctermfg=DarkRed
 " imap <C-J> <Plug>snipMateNextOrTrigger
 " smap <C-J> <Plug>snipMateNextOrTrigger
 " Emmet {{{2
-let g:user_emmet_leader_key = '<c-e>'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstal
+let g:user_emmet_leader_key='<C-e>'
+
 "Fugitive Git {{{2
 nmap <leader>ga :Git add -A<CR>
 nmap <leader>gc :Gcommit -a<CR>
@@ -492,7 +496,7 @@ map <leader>nt :NERDTreeToggle<CR>
 " Airline {{{2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'powerlineish'
+" let g:airlinethemeirline_theme = 'airlinetheme'
 " Tmuxline {{{2
 " let g:tmuxline_preset = 'powerline'
 " Promptline {{{2
@@ -564,3 +568,48 @@ map t :TlistToggle "呼出和关闭Taglist
 
 "setting NERDTree Quick Open
 nnoremap <silent> <F5> :NERDTree<CR>
+
+nmap <C-b>l :ls<CR>
+nmap <C-b>n :bnext<CR>
+nmap <C-b>p :bprev<CR>
+
+
+if has("autocmd")
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
+endif
+
+let g:SuperTabDefaultCompletionType = '<C-x><C-o>'
+
+nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
