@@ -54,7 +54,7 @@ Plugin 'raichoo/purescript-vim'
 Plugin 'leafgarland/typescript-vim'
 
 " add the taglist plug
-Plugin 'taglist.vim'
+"Plugin 'taglist.vim'
 
 " vim-scripts
 Plugin 'Tabular'
@@ -62,6 +62,8 @@ Plugin 'ctrlp.vim'
 Plugin 'matchit.zip'
 Plugin 'ack.vim'
 "Plugin 'project.vim'
+"Plugin 'ybian/smartim'
+
 
 call vundle#end()
 
@@ -125,16 +127,16 @@ augroup END " }
 
 " Restore cursor position {{{2
 if has("autocmd")
-	filetype plugin indent on
-	autocmd BufReadPost *
-		\ if line("'\"") > 1 && line("'\"") <= line("$") |
-		\   exe "normal! g`\"" |
-		\ endif
+  filetype plugin indent on
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
 endif
 
 " Set filetype {{{2
  if has("autocmd")
-	au BufNewFile,BufRead *.hbs set ft=html
+  au BufNewFile,BufRead *.hbs set ft=html
  endif
 " Save on losing focus {{{2
 au FocusLost * :wa
@@ -163,12 +165,12 @@ endif
 " Stuff {{{2
 
 cmap w!! %!sudo tee> /dev/null %
-command! W w												" Remap :W to :w
+command! W w                        " Remap :W to :w
 
-nnoremap Y y$												" Yank to end of line with Y
-nnoremap D d$												" Delete to end of line with D
+nnoremap Y y$                       " Yank to end of line with Y
+nnoremap D d$                       " Delete to end of line with D
 
-nmap _j vipJV"+yu										" For a SO question i answered, joins lines and copies to system clipboard
+nmap _j vipJV"+yu                   " For a SO question i answered, joins lines and copies to system clipboard
 
 " like gv but for pasted text
 " nnoremap <leader>v V`]
@@ -199,7 +201,7 @@ nnoremap <Nul> /
 nnoremap n nzzzv
 nnoremap N Nzzzv
 " Escaping {{{2
-inoremap <C-c> <ESC>									" Just smart
+inoremap <C-c> <ESC>                  " Just smart
 inoremap jj <ESC>
 inoremap jk <ESC>
 inoremap fd <ESC>
@@ -255,10 +257,10 @@ nnoremap <C-y> 3<C-y>
 " Syntax highlighting groups for word under cursor {{{2
 " nmap <C-S-P> :call <SID>SynStack()<CR>
 " function! <SID>SynStack()
-" 	if !exists("*synstack")
-" 		return
-" 	endif
-" 	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+"   if !exists("*synstack")
+"     return
+"   endif
+"   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 " endfunc
 
 " Awesome fucking pasting {{{2
@@ -337,15 +339,15 @@ vnoremap <leader>y "*y
 " [ Functions ]{{{1
 " Remove trailing white space {{{2
 function! Preserve(command)
-	" Preparation: save last search, and cursor position.
-	let _s=@/
-	let l = line(".")
-	let c = col(".")
-	" Do the business:
-	execute a:command
-	" Clean up: restore previous search history, and cursor position
-	let @/=_s
-	call cursor(l, c)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
 nmap _= :call Preserve("normal gg=G")<CR>
@@ -353,7 +355,7 @@ nmap _= :call Preserve("normal gg=G")<CR>
 " Prune the arglist for matches
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
 function! QuickfixFilenames()
-"	  Building a hash ensures we get each buffer only once
+"   Building a hash ensures we get each buffer only once
   let buffer_numbers = { }
   for quickfix_item in getqflist()
     let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
@@ -364,29 +366,29 @@ endfunction
 " Set tabstop, softtabstop and shiftwidth to the same value {{{2
 command! -nargs=* Stab call Stab()
 function! Stab()
-	let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-	if l:tabstop > 0
-		let &l:sts = l:tabstop
-		let &l:ts = l:tabstop
-		let &l:sw = l:tabstop
-	endif
-	call SummarizeTabs()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
 endfunction
 
 function! SummarizeTabs()
-	try
-		echohl ModeMsg
-		echon 'tabstop='.&l:ts
-		echon ' shiftwidth='.&l:sw
-		echon ' softtabstop='.&l:sts
-		if &l:et
-			echon ' expantab'
-		else
-			echon ' noexpandtab'
-		endif
-	finally
-		echohl None
-	endtry
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expantab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
 endfunction
 
 " Run Tests {{{2
@@ -443,10 +445,10 @@ endfunction
 " map <leader>T :call RunNearestTest()<cr>
 " Visual Mode */# from Scrooloose {{{2
 function! s:VSetSearch()
-	let temp = @@
-	norm! gvy
-	let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-	let @@ = temp
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
 endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
@@ -516,12 +518,12 @@ let g:syntastic_javascript_checkers = ['eslint']
 " Toggle errors
 " Tabularize {{{2
 if exists(":Tabularize")
-	nmap <leader>t= :Tabularize /=<CR>
-	vmap <leader>t= :Tabularize /=<CR>
-	nmap <leader>t: :Tabularize /:\zs<CR>
-	vmap <leader>t: :Tabularize /:\zs<CR>
-	nmap <leader>t> :Tabularize /=><CR>
-	vmap <leader>t> :Tabularize /=><CR>
+  nmap <leader>t= :Tabularize /=<CR>
+  vmap <leader>t= :Tabularize /=<CR>
+  nmap <leader>t: :Tabularize /:\zs<CR>
+  vmap <leader>t: :Tabularize /:\zs<CR>
+  nmap <leader>t> :Tabularize /=><CR>
+  vmap <leader>t> :Tabularize /=><CR>
 endif
 " Ag The Silver Searcher {{{2
 if executable('ag')
@@ -567,7 +569,7 @@ map t :TlistToggle "呼出和关闭Taglist
 
 
 "setting NERDTree Quick Open
-nnoremap <silent> <F5> :NERDTree<CR>
+nnoremap <silent> <F5> :NERDTreeToggle<CR>
 
 nmap <C-b>l :ls<CR>
 nmap <C-b>n :bnext<CR>
